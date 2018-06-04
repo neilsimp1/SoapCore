@@ -433,6 +433,9 @@ namespace SoapCore
 				case "DateTime":
 					resolvedType = "xs:dateTime";
 					break;
+				case "Guid":
+					resolvedType = "xs:string";
+					break;
 			}
 
 			if (String.IsNullOrEmpty(resolvedType))
