@@ -114,6 +114,10 @@ namespace SoapCore
 					{
 						writer.WriteAttributeString("name", "ArrayOf" + toBuild.Name.Replace("[]", string.Empty));
 					}
+					else if (typeof(IEnumerable).IsAssignableFrom(toBuild))
+					{
+						writer.WriteAttributeString("name", toBuild.Name.Replace("`1", string.Empty));
+					}
 					else
 					{
 						writer.WriteAttributeString("name", toBuild.Name);
@@ -368,6 +372,15 @@ namespace SoapCore
 					}
 					writer.WriteAttributeString("name", name);
 					writer.WriteAttributeString("type", "tns:ArrayOf" + type.Name.Replace("[]", string.Empty));
+
+					_complexTypeToBuild.Enqueue(type);
+				}
+				else if (typeof(IEnumerable).IsAssignableFrom(type)) {
+					if (string.IsNullOrEmpty(name)) {
+						name = type.Name;
+					}
+					writer.WriteAttributeString("name", name);
+					writer.WriteAttributeString("type", "tns:" + type.Name.Replace("`1", string.Empty));
 
 					_complexTypeToBuild.Enqueue(type);
 				}
